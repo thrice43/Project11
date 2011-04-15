@@ -1,5 +1,5 @@
 #include <iostream>
-//#include <iomanip>
+#include <iomanip>
 //#include <cmath>
 using namespace std;
 
@@ -10,7 +10,7 @@ int getTotal(int twoDim[3][3]); // Accepts a Two dimenstional Array as an argume
                             
 // Accepts: A Two Dimensional Array As an arguement
 // Returns: Average of all values in array w/ precision of two
-int getAverage( int twoDim[3][3] ) ; 
+double getAverage( int twoDim[3][3] ) ; 
 
 // Accepts: Two Dimensional Array as an argument, and second argument of int should be the indice of the row.
 // Returns: Total of all the members of the array as an Int
@@ -32,7 +32,7 @@ int getHighestInRow( int twoDim[3][3], int row) ;
 // Returns the lowest in the twoDim[3][3]
 int getLowestInRow( int twoDim[3][3], int row) ;
 
-void areYouStillDown(int twoDim[3][3], bool &doneFlag);
+void RunMenu(int twoDim[3][3] );
 void printArray(int twoDim[3][3]);
 
 int main(){
@@ -42,7 +42,7 @@ int main(){
 							{105, 24, 1} 
 						   };
 	bool done = false;
-	areYouStillDown(theArray, done) ; 
+	RunMenu(theArray) ; 
     return 0 ; 
 }
 
@@ -57,14 +57,14 @@ int getTotal(int twoDim[3][3]){
     }
 	return accum; 
 }
-int getAverage( int twoDim[3][3] ){
+double getAverage( int twoDim[3][3] ){
 	int tot = 0 ; 
     for (int i = 0 ; i < 3 ; i ++){
 		for (int j = 0 ; j <3 ; j++ ) {
 			tot += twoDim[i][j];
 		}
 	}
-	int total = tot/9.0 ; 
+	double total = tot/9.0 ; 
 	return total ; 
 }
 int getRowTotal (int twoDim[3][3], int row ){
@@ -91,11 +91,11 @@ int getHighestInRow( int twoDim[3][3], int row){
     //Inialize and Delcare variables and ocnstantas
     int high = 0 ; 
     int i = 0 ;
-     
+    printArray(twoDim);
     while(i < 3){
         //if twodim locaiton is higher than high than
-        if (twoDim[row][i] > high){
-            high = twoDim[row][i] ;// high is now that location
+        if (twoDim[row-1][i] > high){
+            high = twoDim[row-1][i] ;// high is now that location
         }
         i++;
     }
@@ -104,14 +104,11 @@ int getHighestInRow( int twoDim[3][3], int row){
 }
 int getLowestInRow( int twoDim[3][3], int row){
     int i = 0 ; 
-    int low = twoDim[row][i] ;
-    //While twoDim[row][i] is 'something' 
-    while(twoDim[row][i]){
-        
-        
+	int low = 1000 ; 
+    while(i < 3){
         // speificed entry in twoDim is less than low
-        if (twoDim[row][i] < low ){
-            low = twoDim[row][i];    // low is now equal to the new 'low'
+        if (twoDim[row-1][i] < low ){
+            low = twoDim[row-1][i];    // low is now equal to the new 'low'
         }
         i++; 
     } 
@@ -119,7 +116,7 @@ int getLowestInRow( int twoDim[3][3], int row){
 }
 
 
-void areYouStillDown(int twoDim[3][3] , bool &doneFlag){
+void RunMenu(int twoDim[3][3] ){
 	int userIn = 0 ; 
 	int outTmp = 0 ; 
 	double dbl = 0.00;
@@ -128,77 +125,96 @@ void areYouStillDown(int twoDim[3][3] , bool &doneFlag){
 	cout << "Quite Interestings......." << endl; 
 	
 	do {
-		
-		cout << "1.) View Array" ;
-		cout << "\n2.) Get Total\n3.) Get Average";
-		cout << "\n4.) Get Row Total";
-		cout << "\n5.) Get Column Total\n6.) Get Highest In Row" ;
-		cout << "\n7.) Get Lowest In Row\n\n\tInput: "  ;
-		try{
+		//try{
+			cout << "1.) View Array" ;
+			cout << "\n2.) Get Total\n3.) Get Average";
+			cout << "\n4.) Get Row Total";
+			cout << "\n5.) Get Column Total\n6.) Get Highest In Row" ;
+			cout << "\n7.) Get Lowest In Row\n\n\tInput: "  ;
 			cin >> userIn ; 
-			if ( userIn < 1 || userIn > 7){
+//			throw 0 ; 
+		//	
+		//catch(char userIn){
+		//	cout << "Invalid" ;
+		//}
+		if ( userIn < 1 || userIn > 7){
+			userIn = 0 ;
+			cout << "\nError!!!! Try Againz" << endl;
+		}
+
+	
+		else{
+			if (userIn == 1){
+				printArray(twoDim);
+				userIn = 0 ; 
+			}
+			else if (userIn == 2){
+				outTmp = getTotal(twoDim);
+				cout << "\n\n\u03A3[Array] = " << outTmp << endl; 
 				userIn = 0 ;
-				cout << "\nError!!!! Try Againz" << endl;
+			}
+			else if (userIn == 3){
+				dbl = getAverage(twoDim);
+				cout << "\n\nAverage: <"<< setw(4) << ">" << endl; 
+				userIn = 0 ; 
+			}
+			else if (userIn == 4){
+				cout << "Enter a row number 1-3: ";
+				cin >> row ; 
+				outTmp = getRowTotal(twoDim, row);
+				cout << "\n\n\u03A3[Row#" << row << "] = " << outTmp ; 
+				userIn = 0 ; 
+			}
+			else if (userIn == 5){
+				cout << "Enter a Column Number: " ;
+				cin >> column ; 
+				outTmp = getColumnTotal(twoDim,column);
+				cout << "\n\n\u03A3[column#" << column << "] = " << outTmp ; 
+				userIn = 0 ; 
+			}
+			else if (userIn == 6){
+				cout << "Enter a number (1-3) for Highest # in Row 1-3: ";
+				cin >> row ; 
+				outTmp = getHighestInRow(twoDim,row);
+				cout << "\nThe Highest Number in Array Row: " << outTmp<< endl;
+				userIn = 0;
+			}
+			else if (userIn == 7){
+				cout << "Enter a number (1-3) for Lowest # in Row 1-3: ";
+				cin >> row ; 
+				outTmp = getLowestInRow(twoDim, row);
+				cout << "\nThe Lowest Number in Row: " << outTmp << endl;
+				userIn = 0 ; 
+			}
+			else {
+
 			}
 		}
-		catch(string){
-			cout << "Error: Try Again";
-		}
-		catch(char){
-			cout << "Error: Try Again";
-		}
-
-		if (userIn == 1){
-	
-			printArray(twoDim);
-			doneFlag = true;
-		}
-		else if (userIn == 2){
-			outTmp = getTotal(twoDim); 
-			doneFlag = true;
-		}
-		else if (userIn == 3){
-			dbl = getAverage(twoDim);
-			doneFlag = true ;
-		}
-		else if (userIn == 4){
-			
-			cout << "Enter a number 1-3: ";
-			cin >> row ; 
-			outTmp = getRowTotal(twoDim, row);
-			doneFlag = true;
-		}
-		else if (userIn == 5){
-			outTmp = getColumnTotal(twoDim,column);
-			doneFlag = true;
-		}
-		else if (userIn == 6){
-			cout << "Enter a number (1-3) for Highest # in Row 1-3: ";
-			cin >> row ; 
-			outTmp = getHighestInRow(twoDim,row);
-			doneFlag = true;
-		}
-		else if (userIn == 7){
-			cout << "Enter a number (1-3) for Highest # in Row 1-3: ";
-			cin >> row ; 
-			outTmp = getLowestInRow(twoDim, row);
-			doneFlag = true;
-		}
-		else {
-
-		}
-	}while(!doneFlag || userIn < 1 || userIn > 8);
+	}while( userIn < 1 || userIn > 8);
 }
 
 
 
 void printArray(int twoDim[3][3]){
-	for (int i = 0 ; i < 3 ; i++){			
-		for (int j = 0 ; j < 3 ; j++ ){
-			cout << "{ " << twoDim[i][j]<<", " ; 
+	cout << "{\n" ;//Opening Brack
+	for (int i = 0 ; i < 3 ; i++ ){
+		cout << "    {"; //Opening subBracket			    // {
+		for (int j = 0 ; j < 3 ; j++){					//
+			if ( j < 2){								// {{
+				cout  << setw(3) << twoDim[i][j] << ",";		// {{ n, n,
+			}else{						
+				cout << " " << setw(3) << twoDim[i][j] ; 			// {{ n, n, n
+			}
+		}
+		if ( i < 2){
+			cout << "},\n"; //Close subBracket              {{ n, n, n
+		}else{
+			cout << "} \n" ;
+		}
 	}
-	cout << "} " << endl;
-	}
+
+	cout << "}" << endl << endl; //Clo}sing Bracket
+
 }
 
 
