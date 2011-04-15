@@ -5,9 +5,12 @@ using namespace std;
 
 
 //Prototypes
-int getTotal(int twoDim[3][3]); // Accepts a Two dimenstional Array as an argument,
-                              // Returns the total value of all the values of the array
-                            
+
+// Name: getTotal
+// Returns the total value of all the values of the array
+// Accepts a Two dimenstional Array as an argument,
+int getTotal(int twoDim[3][3]); 
+
 // Accepts: A Two Dimensional Array As an arguement
 // Returns: Average of all values in array w/ precision of two
 double getAverage( int twoDim[3][3] ) ; 
@@ -16,22 +19,20 @@ double getAverage( int twoDim[3][3] ) ;
 // Returns: Total of all the members of the array as an Int
 int getRowTotal (int twoDim[3][3], int row ) ; 
 
-
 /********************* REQUIRED *************************/
 // Accepts: Two arguments, an Two-Dimensional Array, and a second argument where the subscript of the first row
 // Returns: The total of the values in a subscript
 int getColumnTotal ( int twoDim[3][3], int  column) ;  
 
-
 // Accepts: A two dimentional array Second argument is the row indice, therefore colums must be iterated
 // Returns: Integer Value of the highest value
 int getHighestInRow( int twoDim[3][3], int row) ; 
 /********************************************************/
-
 // Accepts: Two dimensional Array and a int row, therefore columns is iterated
 // Returns the lowest in the twoDim[3][3]
 int getLowestInRow( int twoDim[3][3], int row) ;
-
+//Two void functions to runMenu and print the array.
+//I feel like it will serve a purpose and be used more than once.
 void RunMenu(int twoDim[3][3] );
 void printArray(int twoDim[3][3]);
 
